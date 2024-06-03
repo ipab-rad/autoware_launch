@@ -17,13 +17,13 @@
     filter_obstacle_pointcloud_by_raw_pointcloud: false
 
     # grid map coordinate
-    map_frame: "map"
-    base_link_frame: "base_link"
+    map_frame: "base_footprint"
+    base_link_frame: "base_footprint"
     # center of the grid map
-    gridmap_origin_frame: "base_link"
+    gridmap_origin_frame: "base_footprint"
     # ray-tracing center: main sensor frame is preferable like: "velodyne_top"
     # base_link should not be used with "OccupancyGridMapProjectiveBlindSpot"
-    scan_origin_frame: "base_link"
+    scan_origin_frame: "base_footprint"
 
     grid_map_type: "OccupancyGridMapFixedBlindSpot"
     OccupancyGridMapFixedBlindSpot:
