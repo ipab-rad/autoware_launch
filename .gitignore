@@ -1,2 +1,10 @@
 #prettier
 node_modules/
+
+# Ignore autoware source code
+deps/
+install/
+build/
+log/
+*autoware.universe/
+external/
