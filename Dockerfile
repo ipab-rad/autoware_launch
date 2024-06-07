@@ -83,7 +83,7 @@ RUN add-apt-repository -y ppa:kisak/kisak-mesa \
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
     libegl-mesa0 \
     libegl1-mesa-dev \
-    libgbm-dev \    
+    libgbm-dev \
     libgbm1 \
     libgl1-mesa-dev \
     libgl1-mesa-dri \
@@ -111,7 +111,7 @@ COPY autoware_deps.repos ./
 COPY autoware_tartan.repos ./
 
 # Clone all repos and generate dependencies package list
-RUN --mount=type=ssh mkdir src \ 
+RUN --mount=type=ssh mkdir src \
     && mkdir -p ~/.ssh \
     && ssh-keyscan github.com >> ~/.ssh/known_hosts \
     && vcs import src < autoware_deps.repos \
@@ -177,7 +177,7 @@ RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /root/.bashrc \
    -DCMAKE_BUILD_TYPE=Release && source install/setup.bash"' >> /root/.bashrc \
    && echo 'alias colcon_build_perception="colcon build --symlink-install --cmake-args \
    -DCMAKE_BUILD_TYPE=Release --packages-up-to $COMMON_PKGS $PERCEPTION_PKGS \
-   && source install/setup.bash"' >> /root/.bashrc 
+   && source install/setup.bash"' >> /root/.bashrc
 
 # Enter bash for development
 CMD ["bash"]
