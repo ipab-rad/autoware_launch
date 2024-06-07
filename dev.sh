@@ -16,11 +16,17 @@ print_info() {
 }
 
 # Parse arguments
-while [[ "$#" -gt 0 ]]; do
+while [[ $# -gt 0 ]]; do
     case $1 in
-        --headless) headless=true ;;
-        --help|-h) print_info; exit 0 ;;
-        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    --headless) headless=true ;;
+    --help | -h)
+        print_info
+        exit 0
+        ;;
+    *)
+        echo "Unknown parameter passed: $1"
+        exit 1
+        ;;
     esac
     shift
 done
@@ -37,14 +43,14 @@ mkdir -p build
 # Run docker image with local code volumes for development
 docker run -it --rm --net host --privileged \
     --gpus all \
-    ${MOUNT_X} \
-    -e XAUTHORITY=${XAUTHORITY} \
-    -e XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR \
+    "${MOUNT_X}" \
+    -e XAUTHORITY="${XAUTHORITY}" \
+    -e XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
     -e NVIDIA_DRIVER_CAPABILITIES=all \
     -v /dev:/dev \
     -v /tmp:/tmp \
     -v /etc/localtime:/etc/localtime:ro \
-    -v $HOME/autoware_data:/root/autoware_data \
+    -v "$HOME"/autoware_data:/root/autoware_data \
     -v ./cyclone_dds.xml:/opt/ros_ws/cyclone_dds.xml \
     -v ./autoware_launch:/opt/ros_ws/src/autoware_launch \
     -v ./autoware.universe:/opt/ros_ws/src/autoware.universe \
