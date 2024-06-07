@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<CycloneDDS xmlns="https://cdds.io/config">
+    <Domain Id="any">
+        <!-- <SharedMemory>
+            <Enable>true</Enable>
+            <LogLevel>info</LogLevel>
+        </SharedMemory> -->
+        <Internal>
+            <SocketReceiveBufferSize min="50MB"/>
+        </Internal>
+    </Domain>
+</CycloneDDS>

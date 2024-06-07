@@ -1,0 +1,5 @@
+repositories:
+  autoware.universe:
+    type: git
+    url: git@github.com:ipab-rad/autoware.universe.git
+    version: tartan-perception
