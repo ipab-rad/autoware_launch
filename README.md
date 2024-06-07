@@ -50,7 +50,7 @@ Once inside the container, run
 colcon_build_perception
 ```
 
-This cmd will ONLY build autoware perception related packages (~114 pkgs) only.
+This cmd will ONLY build autoware perception related packages (~114 pkgs)
 
 If you require to build the entire autoware workspace (~330+ pkgs) you can do:
 
@@ -58,7 +58,7 @@ If you require to build the entire autoware workspace (~330+ pkgs) you can do:
 colcon_build
 ```
 
-After running the Docker container with `dev.sh`, the `install` and `build` directories will be automatically created in the root of the repository. All build artifacts will be stored there after building the Autoware packages. This way, you do not need to rebuild the Autoware packages every time you reopen a new Docker container.
+After running the Docker container with `dev.sh`, the `install` and `build` directories will be automatically created in the root of the repository. All build artifacts will be stored there after building the Autoware packages. This way, you do not need to rebuild again every time you reopen a new Docker container.
 
 ## Run Perception (Detection only)
 
