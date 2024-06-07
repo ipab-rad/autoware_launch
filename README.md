@@ -62,6 +62,8 @@ After running the Docker container with `dev.sh`, the `install` and `build` dire
 
 ## Run Perception (Detection only)
 
+The docker container is configured with Cyclone DDS as ROS RMW with custom parameters. Yo will need to  run `sudo sysctl -w net.core.rmem_max=2147483647` to allow running nodes with this configuration.
+
 If you haven't already, run the container with dev.sh, then:
 
 ```bash
