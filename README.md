@@ -54,7 +54,7 @@ This cmd will ONLY build autoware perception related packages (~114 pkgs)
 
 If you require to build the entire autoware workspace (~330+ pkgs) you can do:
 
-```
+```bash
 colcon_build
 ```
 
@@ -62,14 +62,30 @@ After running the Docker container with `dev.sh`, the `install` and `build` dire
 
 ## Run Perception (Detection only)
 
-The docker container is configured with Cyclone DDS as ROS RMW with custom parameters. Yo will need to  run `sudo sysctl -w net.core.rmem_max=2147483647` to allow running nodes with this configuration.
-
-If you haven't already, run the container with dev.sh, then:
+The Docker container is configured with Cyclone DDS as the ROS RMW with custom parameters. To ensure nodes run correctly with this configuration, you need to increase the maximum receive buffer size in your host machine.
 
 ```bash
-# Source workspace
+# Create sysctl cfg file with the required setting
+sudo sh -c 'echo "net.core.rmem_max=2147483647" > /etc/sysctl.d/10-cyclone-max.conf'
+
+# Reload sysctl settings
+sudo sysctl --system
+```
+
+If you haven't already, run the container using `dev.sh`. After that, follow these steps:
+
+```bash
+# Source the ROS workspace
 source /opt/ros_ws/install/setup.bash
 
-# Launch autoware perception
+# If launching for the first time, optimize/build TensorRT engine models
+
+## Build the Lidar CenterPoint model
+ros2 launch lidar_centerpoint lidar_centerpoint.launch.xml model_name:=centerpoint build_only:=true
+
+##  Build the YOLOX model for image object detection
+ros2 launch tensorrt_yolox yolox_s_plus_opt.launch.xml build_only:=true
+
+# Launch Autoware perception
 ros2 launch autoware_launch autoware.launch.xml
 ```
