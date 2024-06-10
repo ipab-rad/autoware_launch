@@ -40,10 +40,11 @@ fi
 mkdir -p install
 mkdir -p build
 
+# shellcheck disable=SC2086
 # Run docker image with local code volumes for development
 docker run -it --rm --net host --privileged \
     --gpus all \
-    "${MOUNT_X}" \
+    ${MOUNT_X} \
     -e XAUTHORITY="${XAUTHORITY}" \
     -e XDG_RUNTIME_DIR="$XDG_RUNTIME_DIR" \
     -e NVIDIA_DRIVER_CAPABILITIES=all \
