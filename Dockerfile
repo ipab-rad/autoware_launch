@@ -171,6 +171,7 @@ RUN apt-get update \
 
 # Add sourcing local workspace command to bashrc for convenience when running interactively
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /root/.bashrc \
+   && echo "source $ROS_WS/install/setup.bash" >> /root/.bashrc \
    && source /root/.bashrc \
     # Add colcon build alias for convenience
    && echo 'alias colcon_build="colcon build --symlink-install --cmake-args \
