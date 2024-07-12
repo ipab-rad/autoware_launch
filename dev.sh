@@ -6,10 +6,14 @@
 # Default value for headless
 headless=false
 
+ROSBAGS_DIR=$HOME/rosbags
+
 print_info() {
     echo "Usage: dev.sh [--headless] [--help | -h]"
     echo ""
     echo "Options:"
+    echo "  --path, -p   ROSBAGS_DIR_PATH"
+    echo "                 Specify path to rosbags"
     echo "  --headless     Run the Docker image without X11 forwarding"
     echo "  --help, -h     Display this help message and exit."
     echo ""
@@ -18,6 +22,15 @@ print_info() {
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
+    --path | -p)
+        if [[ -n "$2" && "$2" != -* ]]; then
+            ROSBAGS_DIR="$2"
+            shift
+        else
+            echo "Error: Argument for $1 is missing."
+            usage
+        fi
+        ;;
     --headless) headless=true ;;
     --help | -h)
         print_info
@@ -30,6 +43,12 @@ while [[ $# -gt 0 ]]; do
     esac
     shift
 done
+
+# Verify ROSBAGS_DIR exists
+if [ ! -d "$ROSBAGS_DIR" ]; then
+    echo "$ROSBAGS_DIR does not exist! Please provide a valid path to store rosbags"
+    exit 1
+fi
 
 MOUNT_X=""
 if [ "$headless" = "false" ]; then
@@ -51,6 +70,7 @@ docker run -it --rm --net host --privileged \
     -v /dev:/dev \
     -v /tmp:/tmp \
     -v /etc/localtime:/etc/localtime:ro \
+    -v $ROSBAGS_DIR:/opt/ros_ws/rosbags \
     -v "$HOME"/autoware_data:/root/autoware_data \
     -v ./cyclone_dds.xml:/opt/ros_ws/cyclone_dds.xml \
     -v ./autoware_launch:/opt/ros_ws/src/autoware_launch \
