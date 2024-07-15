@@ -172,7 +172,18 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Install WaymoOpenDataset
-RUN pip install waymo-open-dataset-tf-2-12-0==1.6.4
+RUN pip install --no-cache-dir  waymo-open-dataset-tf-2-12-0==1.6.4
+
+# # Install Pytorch + libs
+RUN pip install --no-cache-dir torch torchvision
+
+# Install remaining cuda libs
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
+     cuda-toolkit-12-3 \
+  && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* "$HOME"/.cache
+
+# Install pytorch3d from source
+RUN pip install --no-cache-dir "git+https://github.com/facebookresearch/pytorch3d.git@stable"
 
 # Add sourcing local workspace command to bashrc for convenience when running interactively
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /root/.bashrc \
