@@ -167,7 +167,12 @@ RUN apt-get update \
         inetutils-ping \
         # Bash auto-completion for convenience
         bash-completion \
+        # Python pip
+        python3-pip \
     && rm -rf /var/lib/apt/lists/*
+
+# Install WaymoOpenDataset
+RUN pip install waymo-open-dataset-tf-2-12-0==1.6.4
 
 # Add sourcing local workspace command to bashrc for convenience when running interactively
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /root/.bashrc \
