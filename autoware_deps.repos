@@ -82,15 +82,15 @@ repositories:
   deps/sensor_kit/sample_sensor_kit_launch:
     type: git
     url: https://github.com/autowarefoundation/sample_sensor_kit_launch.git
-    version: main
+    version: 59843a4362684e8eb8b8714f66a01d21337c9758 # Before autoware_pointcloud_preprocessor
   deps/sensor_kit/awsim_sensor_kit_launch: # TODO: Integrate into sample_sensor_kit_launch
     type: git
     url: https://github.com/RobotecAI/awsim_sensor_kit_launch.git
-    version: main
+    version: c698f24a2a0b5dccc8e8b15e8628ae58bcdabb4b # Before autoware_pointcloud_preprocessor
   deps/sensor_kit/awsim_labs_sensor_kit_launch:
     type: git
     url: https://github.com/autowarefoundation/awsim_labs_sensor_kit_launch.git
-    version: main
+    version: 02a085987f144e7eac754ca50993d14fc98bef4d # Before autoware_pointcloud_preprocessor
   # vehicle
   deps/vehicle/sample_vehicle_launch:
     type: git
