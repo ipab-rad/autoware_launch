@@ -92,7 +92,7 @@ RUN add-apt-repository -y ppa:kisak/kisak-mesa \
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* "$HOME"/.cache
 
 # Setup ROS workspace folder
-ENV ROS_WS /opt/ros_ws
+ENV ROS_WS=/opt/ros_ws
 WORKDIR $ROS_WS
 
 # Set cyclone DDS ROS RMW
@@ -169,21 +169,23 @@ RUN apt-get update \
         bash-completion \
         # Python pip
         python3-pip \
+        # ROS 2 bag MCAP \
+        ros-"$ROS_DISTRO"-rosbag2-storage-mcap \
     && rm -rf /var/lib/apt/lists/*
 
-# Install WaymoOpenDataset
-RUN pip install --no-cache-dir  waymo-open-dataset-tf-2-12-0==1.6.4
-
-# # Install Pytorch + libs
-RUN pip install --no-cache-dir torch torchvision
-
-# Install remaining cuda libs
+# Install cuSolver
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install --no-install-recommends \
-     cuda-toolkit-12-3 \
-  && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* "$HOME"/.cache
+    libcusolver-12-3 libcusolver-dev-12-3 \
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* "$HOME"/.cache
 
-# Install pytorch3d from source
-RUN pip install --no-cache-dir "git+https://github.com/facebookresearch/pytorch3d.git@stable"
+# Install Waymo Open Dataset API + open3d
+RUN pip install --no-cache-dir  waymo-open-dataset-tf-2-12-0==1.6.4 open3d
+
+# Install Pytorch + libs
+RUN pip install --no-cache-dir torch torchvision fvcore
+
+# Install Pytorch3d
+RUN pip install --no-index --no-cache-dir pytorch3d -f https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py310_cu121_pyt230/download.html
 
 # Add sourcing local workspace command to bashrc for convenience when running interactively
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> /root/.bashrc \
