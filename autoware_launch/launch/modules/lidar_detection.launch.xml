@@ -9,7 +9,7 @@
   <arg name="model_path" default="$(var data_path)/lidar_centerpoint"/>
   <arg name="input_pointcloud" default="/sensor/lidar/top/points"/>
   <arg name="rviz" default="true"/>
-  <arg name="rviz_config" default="$(find-pkg-share autoware_launch)/rviz/autoware_local.rviz"/>
+  <arg name="rviz_config" default="$(find-pkg-share autoware_launch)/rviz/autoware_lidar_detection.rviz"/>
 
   <!-- Global parameters -->
   <group scoped="false">
