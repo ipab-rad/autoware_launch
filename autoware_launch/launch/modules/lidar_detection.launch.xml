@@ -34,8 +34,15 @@
   <!-- Pointcloud container -->
   <node_container pkg="rclcpp_components" exec="component_container_mt" name="pointcloud_container" namespace="">
 
-    <composable_node pkg="autoware_pointcloud_preprocessor" plugin="autoware::pointcloud_preprocessor::CropBoxFilterComponent" name="self_points_crop_box_filter">
+    <composable_node pkg="tartan_utils" plugin="tartan_utils::PointTypeConverter" name="point_type_converter">
       <remap from="input" to="$(var input_pointcloud)"/>
+      <remap from="output" to="/sensor/lidar/top/points/autoware"/>
+      <param name="use_sim_time" value="$(var use_sim_time)"/>
+      <extra_arg name="use_intra_process_comms" value="false"/>
+    </composable_node>
+
+    <composable_node pkg="autoware_pointcloud_preprocessor" plugin="autoware::pointcloud_preprocessor::CropBoxFilterComponent" name="self_points_crop_box_filter">
+      <remap from="input" to="/sensor/lidar/top/points/autoware"/>
       <remap from="output" to="$(var self_cropbox_pointcloud)"/>
       <param name="input_frame" value="lidar_ouster_top"/>
       <param name="output_frame" value="base_footprint"/>
@@ -90,6 +97,7 @@
       <extra_arg name="use_intra_process_comms" value="false"/>
     </composable_node>
 
+      <!-- Lidar Transfusion -->
     <composable_node pkg="autoware_lidar_transfusion" plugin="autoware::lidar_transfusion::LidarTransfusionNode" name="lidar_transfusion"  if="$(eval &quot;'$(var model_name)' == 'transfusion' &quot;)">
       <remap from="~/input/pointcloud" to="$(var perception_pointcloud)"/>
       <remap from="~/output/objects" to="/perception/object_recognition/detection/centerpoint/objects"/>

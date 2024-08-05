@@ -37,4 +37,5 @@ autoware_shape_estimation
 autoware_occupancy_grid_map_outlier_filter
 autoware_cluster_merger
 autoware_map_based_prediction
+tartan_utils
 autoware_launch
