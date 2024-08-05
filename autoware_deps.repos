@@ -3,20 +3,31 @@ repositories:
   deps/core/autoware_msgs:
     type: git
     url: https://github.com/autowarefoundation/autoware_msgs.git
-    version: main
+    version: 1.1.0
   deps/core/autoware_adapi_msgs:
     type: git
     url: https://github.com/autowarefoundation/autoware_adapi_msgs.git
-    version: main
+    version: 1.3.0
   deps/core/autoware_internal_msgs:
     type: git
     url: https://github.com/autowarefoundation/autoware_internal_msgs.git
-    version: main
+    version: 1.1.0
   deps/core/autoware_common:
     type: git
     url: https://github.com/autowarefoundation/autoware_common.git
-    # version: b92f64f582f498dee40ecc6a6761c8b79cda37c0
-    version: main
+    version: remove-autoware-cmake-utils
+  deps/core/autoware_cmake:
+    type: git
+    url: https://github.com/autowarefoundation/autoware_cmake.git
+    version: 1.0.0
+  deps/core/autoware_utils:
+    type: git
+    url: https://github.com/autowarefoundation/autoware_utils.git
+    version: 1.0.0
+  deps/core/autoware_lanelet2_extension:
+    type: git
+    url: https://github.com/autowarefoundation/autoware_lanelet2_extension.git
+    version: 0.5.0
   deps/core/autoware_auto_msgs: # TODO(mfc): Remove when autoware_msgs is merged
     type: git
     url: https://github.com/tier4/autoware_auto_msgs.git
@@ -82,15 +93,19 @@ repositories:
   deps/sensor_kit/sample_sensor_kit_launch:
     type: git
     url: https://github.com/autowarefoundation/sample_sensor_kit_launch.git
-    version: 59843a4362684e8eb8b8714f66a01d21337c9758 # Before autoware_pointcloud_preprocessor
+    version: main
   deps/sensor_kit/awsim_sensor_kit_launch: # TODO: Integrate into sample_sensor_kit_launch
     type: git
     url: https://github.com/RobotecAI/awsim_sensor_kit_launch.git
-    version: c698f24a2a0b5dccc8e8b15e8628ae58bcdabb4b # Before autoware_pointcloud_preprocessor
+    version: main
   deps/sensor_kit/awsim_labs_sensor_kit_launch:
     type: git
     url: https://github.com/autowarefoundation/awsim_labs_sensor_kit_launch.git
-    version: 02a085987f144e7eac754ca50993d14fc98bef4d # Before autoware_pointcloud_preprocessor
+    version: main
+  deps/sensor_kit/single_lidar_sensor_kit_launch:
+    type: git
+    url: https://github.com/autowarefoundation/single_lidar_sensor_kit_launch.git
+    version: main
   # vehicle
   deps/vehicle/sample_vehicle_launch:
     type: git

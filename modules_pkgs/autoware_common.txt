@@ -5,10 +5,11 @@ path_distance_calculator
 tier4_adapi_rviz_plugin
 tier4_planning_rviz_plugin
 tier4_camera_view_rviz_plugin
+autoware_universe_utils
 object_recognition_utils
 osqp_interface
 tier4_perception_rviz_plugin
-grid_map_utils
+autoware_motion_utils
 kalman_filter
 cuda_utils
 fake_test_node
@@ -19,7 +20,6 @@ goal_distance_calculator
 autoware_auto_common
 tier4_system_rviz_plugin
 geography_utils
-motion_utils
 tvm_utility
 global_parameter_loader
 time_utils
@@ -33,13 +33,14 @@ tier4_state_rviz_plugin
 component_interface_tools
 qp_interface
 component_interface_utils
+autoware_test_utils
 tier4_api_utils
-tier4_autoware_utils
 tensorrt_common
 traffic_light_recognition_marker_publisher
 tier4_localization_rviz_plugin
 perception_utils
 component_interface_specs
+autoware_grid_map_utils
 tier4_vehicle_rviz_plugin
 tier4_traffic_light_rviz_plugin
 interpolation
