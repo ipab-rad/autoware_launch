@@ -6,7 +6,7 @@
   <arg name="remove_ground" default="false"/>
   <arg name="data_path" default="$(env HOME)/autoware_data"/>
   <arg name="model_name" default="centerpoint"/>
-  <arg name="model_path" default="$(var data_path)/lidar_centerpoint"/>
+  <arg name="model_path" default="$(var data_path)/lidar_$(var model_name)"/>
   <arg name="input_pointcloud" default="/sensor/lidar/top/points"/>
   <arg name="rviz" default="true"/>
   <arg name="rviz_config" default="$(find-pkg-share autoware_launch)/rviz/autoware_lidar_detection.rviz"/>
@@ -25,14 +25,16 @@
   <let name="perception_pointcloud" value="/perception/obstacle_segmentation/pointcloud" if="$(var remove_ground)"/>
   <let name="perception_pointcloud" value="$(var self_cropbox_pointcloud)" unless="$(var remove_ground)"/>
 
-  <arg name="model_param_path" default="$(find-pkg-share autoware_launch)/config/perception/object_recognition/detection/lidar_model/$(var model_name).param.yaml"/>
-  <arg name="ml_package_param_path" default="$(var model_path)/$(var model_name)_ml_package.param.yaml"/>
-  <arg name="class_remapper_param_path" default="$(var model_path)/detection_class_remapper.param.yaml"/>
+  <let name="model_param_path" value="$(find-pkg-share autoware_launch)/config/perception/object_recognition/detection/lidar_model/$(var model_name).param.yaml"/>
+  <let name="ml_package_param_path" value="$(var model_path)/$(var model_name)_ml_package.param.yaml"/>
+  <let name="class_remapper_param_path" value="$(var model_path)/detection_class_remapper.param.yaml" if="$(eval &quot;'$(var model_name)' == 'centerpoint' &quot;)"/>
+
+  <let name="class_remapper_param_path" value="$(find-pkg-share autoware_lidar_transfusion)/config/detection_class_remapper.param.yaml" if="$(eval &quot;'$(var model_name)' == 'transfusion' &quot;)"/>
 
   <!-- Pointcloud container -->
   <node_container pkg="rclcpp_components" exec="component_container_mt" name="pointcloud_container" namespace="">
 
-    <composable_node pkg="pointcloud_preprocessor" plugin="pointcloud_preprocessor::CropBoxFilterComponent" name="self_points_crop_box_filter">
+    <composable_node pkg="autoware_pointcloud_preprocessor" plugin="autoware::pointcloud_preprocessor::CropBoxFilterComponent" name="self_points_crop_box_filter">
       <remap from="input" to="$(var input_pointcloud)"/>
       <remap from="output" to="$(var self_cropbox_pointcloud)"/>
       <param name="input_frame" value="lidar_ouster_top"/>
@@ -50,7 +52,7 @@
     </composable_node>
 
     <!-- ScanGroundFilter (Ground segmentation) -->
-    <composable_node pkg="ground_segmentation" plugin="ground_segmentation::ScanGroundFilterComponent" name="ground_segmentation" if="$(var remove_ground)">
+    <composable_node pkg="autoware_ground_segmentation" plugin="autoware::ground_segmentation::ScanGroundFilterComponent" name="ground_segmentation" if="$(var remove_ground)">
       <remap from="input" to="$(var ground_filter_input)"/>
       <remap from="output" to="$(var perception_pointcloud)"/>
       <param name="input_frame" value="base_footprint"/>
@@ -77,7 +79,7 @@
     </composable_node>
 
     <!-- Lidar Centerpoint -->
-    <composable_node pkg="lidar_centerpoint" plugin="centerpoint::LidarCenterPointNode" name="lidar_centerpoint">
+    <composable_node pkg="autoware_lidar_centerpoint" plugin="autoware::lidar_centerpoint::LidarCenterPointNode" name="lidar_centerpoint" if="$(eval &quot;'$(var model_name)' == 'centerpoint' &quot;)">
       <remap from="~/input/pointcloud" to="$(var perception_pointcloud)"/>
       <remap from="~/output/objects" to="/perception/object_recognition/detection/centerpoint/objects"/>
       <param from="$(var model_param_path)" allow_substs="true"/>
@@ -87,6 +89,15 @@
       <param name="use_sim_time" value="$(var use_sim_time)"/>
       <extra_arg name="use_intra_process_comms" value="false"/>
     </composable_node>
+
+    <composable_node pkg="autoware_lidar_transfusion" plugin="autoware::lidar_transfusion::LidarTransfusionNode" name="lidar_transfusion"  if="$(eval &quot;'$(var model_name)' == 'transfusion' &quot;)">
+      <remap from="~/input/pointcloud" to="$(var perception_pointcloud)"/>
+      <remap from="~/output/objects" to="/perception/object_recognition/detection/centerpoint/objects"/>
+      <param from="$(var model_param_path)" allow_substs="true"/>
+      <param from="$(var class_remapper_param_path)"/>
+      <param name="build_only" value="false"/>
+    </composable_node>
+
   </node_container>
 
   <!-- Rviz -->
