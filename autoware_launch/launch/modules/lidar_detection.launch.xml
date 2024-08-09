@@ -5,7 +5,7 @@
   <arg name="pointcloud_container_name" default="pointcloud_container"/>
   <arg name="remove_ground" default="false"/>
   <arg name="data_path" default="$(env HOME)/autoware_data"/>
-  <arg name="model_name" default="centerpoint"/>
+  <arg name="model_name" default="centerpoint" description="options: `centerpoint` or `centerpoint_tiny`"/>
   <arg name="model_path" default="$(var data_path)/lidar_centerpoint"/>
   <arg name="input_pointcloud" default="/sensor/lidar/top/points"/>
   <arg name="rviz" default="true"/>
@@ -31,7 +31,6 @@
 
   <!-- Pointcloud container -->
   <node_container pkg="rclcpp_components" exec="component_container_mt" name="pointcloud_container" namespace="">
-
     <composable_node pkg="pointcloud_preprocessor" plugin="pointcloud_preprocessor::CropBoxFilterComponent" name="self_points_crop_box_filter">
       <remap from="input" to="$(var input_pointcloud)"/>
       <remap from="output" to="$(var self_cropbox_pointcloud)"/>

@@ -23,7 +23,7 @@ print_info() {
 while [[ $# -gt 0 ]]; do
     case $1 in
     --path | -p)
-        if [[ -n "$2" && "$2" != -* ]]; then
+        if [[ -n $2 && $2 != -* ]]; then
             ROSBAGS_DIR="$2"
             shift
         else
