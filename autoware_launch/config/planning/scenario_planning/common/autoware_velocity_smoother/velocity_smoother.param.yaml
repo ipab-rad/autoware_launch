@@ -49,7 +49,7 @@
 
     # resampling parameters for post process
     post_max_trajectory_length: 300.0        # max trajectory length for resampling [m]
-    post_min_trajectory_length: 30.0         # min trajectory length for resampling [m]
+    post_min_trajectory_length: 180.0         # min trajectory length for resampling [m]
     post_resample_time: 10.0                 # resample total time for dense sampling [s]
     post_dense_resample_dt: 0.1              # resample time interval for dense sampling [s]
     post_dense_min_interval_distance: 0.1    # minimum points-interval length for dense sampling [m]
